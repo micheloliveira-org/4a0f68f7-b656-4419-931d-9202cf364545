@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sistemas Distribuídos on Michel Oliveira | Arquiteto de Software Especialista Microsoft</title><link>https://micheloliveira.com/categories/sistemas-distribu%C3%ADdos/</link><description>Recent content in Sistemas Distribuídos on Michel Oliveira | Arquiteto de Software Especialista Microsoft</description><generator>Hugo</generator><language>pt-BR</language><lastBuildDate>Tue, 05 Aug 2025 17:18:21 -0300</lastBuildDate><atom:link href="https://micheloliveira.com/categories/sistemas-distribu%C3%ADdos/index.xml" rel="self" type="application/rss+xml"/><item><title>O Teorema CAP na Prática: Lições da Rinha de Backend 2025</title><link>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</link><pubDate>Tue, 05 Aug 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#o-que-o-teorema-cap-realmente-significa">O que o Teorema CAP realmente significa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-isso-aparece-na-rinha">Como isso aparece na Rinha&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#estratégias-observadas-na-prática">Estratégias observadas na prática&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-aprendemos-com-isso">O que aprendemos com isso&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;p>Durante a &lt;a href="https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/">Rinha de Backend 2025&lt;/a>, os participantes enfrentaram um desafio que ia além da performance bruta. O objetivo era construir sistemas distribuídos rápidos, confiáveis e resilientes diante de falhas. A proposta parecia simples: processar pagamentos entre dois serviços que poderiam ficar instáveis. No entanto, à medida que o sistema era colocado sob carga, surgia uma questão importante: o que acontece quando partes do sistema deixam de se comunicar e / ou estão fora de sincronia?&lt;/p></description></item></channel></rss>

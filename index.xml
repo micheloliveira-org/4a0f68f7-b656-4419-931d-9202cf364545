@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Michel Oliveira | Arquiteto de Software Especialista Microsoft</title><link>https://micheloliveira.com/</link><description>Recent content in Home on Michel Oliveira | Arquiteto de Software Especialista Microsoft</description><generator>Hugo</generator><language>pt-BR</language><atom:link href="https://micheloliveira.com/index.xml" rel="self" type="application/rss+xml"/><item><title>O Teorema CAP na Prática: Lições da Rinha de Backend 2025</title><link>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</link><pubDate>Tue, 05 Aug 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#o-que-o-teorema-cap-realmente-significa">O que o Teorema CAP realmente significa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-isso-aparece-na-rinha">Como isso aparece na Rinha&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#estratégias-observadas-na-prática">Estratégias observadas na prática&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-aprendemos-com-isso">O que aprendemos com isso&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;p>Durante a &lt;a href="https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/">Rinha de Backend 2025&lt;/a>, os participantes enfrentaram um desafio que ia além da performance bruta. O objetivo era construir sistemas distribuídos rápidos, confiáveis e resilientes diante de falhas. A proposta parecia simples: processar pagamentos entre dois serviços que poderiam ficar instáveis. No entanto, à medida que o sistema era colocado sob carga, surgia uma questão importante: o que acontece quando partes do sistema deixam de se comunicar e / ou estão fora de sincronia?&lt;/p></description></item><item><title>Desafio de Performance - Rinha de Backend 2025 - Insights da Minha Versão em C# + PostgreSQL + Redis</title><link>https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/</link><pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#repositórios">Repositórios&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#insights-principais">Insights principais&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#1-coordenação-reativa-entre-instâncias-com-reactivelock---rastreamento-de-estado-e-sincronização-distribuída-via-redis">1. Coordenação reativa entre instâncias com ReactiveLock - rastreamento de estado e sincronização distribuída via Redis&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#2-performance-real-com-execução-nativa-aot-no-net-9">2. Performance real com execução nativa AOT no .NET 9&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#3-throughput-otimizado-com-bulk-insert-no-postgresql">3. Throughput otimizado com bulk insert no PostgreSQL&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#4-balanceamento-de-carga-real-com-enfileiramento-via-redis---somente-distribuição-de-tráfego-por-round-robin-não-é-adequado-para-cenários-dinâmicos">4. Balanceamento de carga real com enfileiramento via Redis - somente distribuição de tráfego por round robin não é adequado para cenários dinâmicos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#5-separação-entre-enfileiramento-e-processamento-assíncrono-para-alta-escalabilidade-e-responsividade">5. Separação entre enfileiramento e processamento assíncrono para alta escalabilidade e responsividade&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Este artigo traz uma análise dos principais insights técnicos que tive ao construir minha solução para a Rinha de Backend 2025. O foco é mostrar decisões que impactaram diretamente no desempenho, estabilidade e integridade do sistema, especialmente considerando as restrições severas do desafio.&lt;/p></description></item><item><title>Web Application Firewall nunca deveria ser desconsiderado em aplicações públicas</title><link>https://micheloliveira.com/blog/web-application-firewall-nunca-deveria-ser-desconsiderado/</link><pubDate>Mon, 30 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/web-application-firewall-nunca-deveria-ser-desconsiderado/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#1-ameaças-comuns-a-aplicações-web">1. Ameaças comuns a aplicações web&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#2-o-papel-do-waf-na-segurança">2. O papel do WAF na segurança&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#3-cenário-sem-waf-riscos-e-vetores-de-ataque">3. Cenário sem WAF: riscos e vetores de ataque&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#4-custo-em-nuvem-e-proteção-contra-ddos">4. Custo em nuvem e proteção contra DDoS&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#5-boas-práticas-de-implementação-de-waf">5. Boas práticas de implementação de WAF&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Em um cenário de ameaças cibernéticas cada vez mais sofisticadas, o Web Application Firewall (WAF) é uma camada essencial de proteção pois ele analisa o tráfego HTTP antes que alcance o servidor, bloqueando padrões maliciosos e comportamentos suspeitos. Mesmo com frameworks modernos, falhas em bibliotecas, configurações ou atualizações podem expor vulnerabilidades e ignorar o WAF é subestimar o risco real. Neste artigo, exploramos como essa barreira reforça a segurança e protege aplicações com eficiência.&lt;/p></description></item><item><title>Arquitetura de Software que Entrega: O Impacto Real nas Equipes de Desenvolvimento</title><link>https://micheloliveira.com/blog/arquitetura-de-software-que-entrega-impacto-real-equipes-desenvolvimento/</link><pubDate>Sat, 28 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/arquitetura-de-software-que-entrega-impacto-real-equipes-desenvolvimento/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#arquitetura-como-facilitadora-das-entregas">Arquitetura como facilitadora das entregas&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#benefícios-de-padrões-e-planejamento-arquitetural">Benefícios de padrões e planejamento arquitetural&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#colaboração-entre-arquitetos-e-equipes">Colaboração entre arquitetos e equipes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#práticas-recomendadas-para-arquitetura-ágil">Práticas recomendadas para arquitetura ágil&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>A arquitetura de software é o “esqueleto” de um sistema, definindo os componentes, padrões e acordos que orientam o desenvolvimento. Em equipes ágeis, uma arquitetura bem planejada facilita entregas rápidas e seguras, enquanto decisões arquiteturais inadequadas podem criar gargalos e atritos que atrasam o time. Em outras palavras, uma arquitetura bem projetada impulsiona a agilidade e permite mudanças iterativas com baixo risco.&lt;/p></description></item><item><title>Backpressure e Controle de Fluxo em Sistemas Reativos</title><link>https://micheloliveira.com/blog/backpressure-controle-de-fluxo-sistemas-reativos/</link><pubDate>Thu, 26 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/backpressure-controle-de-fluxo-sistemas-reativos/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-problema-da-assimetria-de-velocidade">O Problema da Assimetria de Velocidade&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-é-backpressure">O Que é Backpressure?&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#estratégias-comuns">Estratégias Comuns&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#modelos-reativos-e-controle-de-fluxo">Modelos Reativos e Controle de Fluxo&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#publisher-e-subscriber">Publisher e Subscriber&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-sob-demanda">Fluxo sob Demanda&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#benefícios-do-backpressure">Benefícios do Backpressure&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#considerações-de-implementação">Considerações de Implementação&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Sistemas modernos precisam lidar com fluxos contínuos de dados e picos de carga cada vez mais frequentes. Em arquiteturas orientadas a eventos, &lt;strong>o controle de fluxo&lt;/strong> se torna um fator crítico para garantir que o sistema não entre em colapso sob pressão. É nesse contexto que surgem conceitos como &lt;strong>backpressure&lt;/strong>, que definem como produtores e consumidores negociam a taxa de entrega de dados.&lt;/p></description></item><item><title>Retries Distribuídos: Evitando o Thundering Herd</title><link>https://micheloliveira.com/blog/retries-distribuidos-evitando-thundering-herd/</link><pubDate>Sat, 21 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/retries-distribuidos-evitando-thundering-herd/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-desafio-do-thundering-herd">O Desafio do “Thundering Herd”&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conceito-de-retry-distribuído">Conceito de Retry Distribuído&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#modelagem-de-chave-e-valor">Modelagem de Chave e Valor&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-de-retries-coordenados">Fluxo de Retries Coordenados&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#benefícios">Benefícios&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#cuidados-operacionais">Cuidados Operacionais&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Em sistemas distribuídos, é comum que várias instâncias de um mesmo serviço detectem simultaneamente uma falha em um endpoint externo e disparem &lt;strong>retries&lt;/strong> ao mesmo tempo. Esse comportamento, conhecido como &lt;em>thundering herd&lt;/em>, pode causar ainda mais sobrecarga no serviço alvo, gerando latências adicionais ou até quedas totais. Para superar esse desafio, adotamos padrões de &lt;strong>retries distribuídos&lt;/strong>, nos quais um armazenamento compartilhado (por exemplo, Redis) atua como ponto único de verdade para coordenar quando cada instância pode tentar novamente.&lt;/p></description></item><item><title>Como Projetar um Monólito Escalável: Fundamentos de Arquitetura Moderna</title><link>https://micheloliveira.com/blog/como-projetar-um-monolito-escalavel-fundamentos-arquitetura-moderna/</link><pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/como-projetar-um-monolito-escalavel-fundamentos-arquitetura-moderna/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#1-fundamentos-arquiteturais">1. Fundamentos Arquiteturais&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#stateless-como-regra-de-ouro">Stateless como Regra de Ouro&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#modularização-interna">Modularização Interna&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#2-performance-escalável">2. Performance Escalável&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#operações-assíncronas">Operações Assíncronas&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#gerenciamento-de-recursos">Gerenciamento de Recursos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#análise-de-gargalos">Análise de Gargalos&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#3-segurança-estrutural">3. Segurança Estrutural&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#acesso-e-autorização">Acesso e Autorização&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#manuseio-de-dados-sensíveis">Manuseio de Dados Sensíveis&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#4-resiliência-de-verdade">4. Resiliência de Verdade&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#tolerância-a-falhas">Tolerância a Falhas&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#observabilidade">Observabilidade&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#5-evolução-e-manutenção">5. Evolução e Manutenção&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#um-monólito-modular-é-sustentável">Um Monólito Modular É Sustentável&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#pensando-no-futuro">Pensando no Futuro&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>A arquitetura monolítica ainda é uma escolha válida para muitos sistemas modernos, especialmente quando aplicada com critérios técnicos bem definidos. Um monólito bem estruturado pode ser &lt;strong>escalável, seguro e resiliente&lt;/strong>, oferecendo simplicidade operacional e alta coesão. Neste artigo, exploramos os &lt;strong>fundamentos para criar um monólito que evolui bem&lt;/strong>, sem cair em armadilhas comuns como acoplamento excessivo, gargalos de performance ou falta de tolerância a falhas.&lt;/p></description></item></channel></rss>

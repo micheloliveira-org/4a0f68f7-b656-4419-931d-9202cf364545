@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Resiliencia on Michel Oliveira | Arquiteto de Software Especialista Microsoft</title><link>https://micheloliveira.com/categories/resiliencia/</link><description>Recent content in Resiliencia on Michel Oliveira | Arquiteto de Software Especialista Microsoft</description><generator>Hugo</generator><language>pt-BR</language><lastBuildDate>Tue, 01 Jul 2025 21:58:57 -0300</lastBuildDate><atom:link href="https://micheloliveira.com/categories/resiliencia/index.xml" rel="self" type="application/rss+xml"/><item><title>Backpressure e Controle de Fluxo em Sistemas Reativos</title><link>https://micheloliveira.com/blog/backpressure-controle-de-fluxo-sistemas-reativos/</link><pubDate>Thu, 26 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/backpressure-controle-de-fluxo-sistemas-reativos/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-problema-da-assimetria-de-velocidade">O Problema da Assimetria de Velocidade&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-é-backpressure">O Que é Backpressure?&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#estratégias-comuns">Estratégias Comuns&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#modelos-reativos-e-controle-de-fluxo">Modelos Reativos e Controle de Fluxo&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#publisher-e-subscriber">Publisher e Subscriber&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-sob-demanda">Fluxo sob Demanda&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#benefícios-do-backpressure">Benefícios do Backpressure&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#considerações-de-implementação">Considerações de Implementação&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Sistemas modernos precisam lidar com fluxos contínuos de dados e picos de carga cada vez mais frequentes. Em arquiteturas orientadas a eventos, &lt;strong>o controle de fluxo&lt;/strong> se torna um fator crítico para garantir que o sistema não entre em colapso sob pressão. É nesse contexto que surgem conceitos como &lt;strong>backpressure&lt;/strong>, que definem como produtores e consumidores negociam a taxa de entrega de dados.&lt;/p></description></item><item><title>Retries Distribuídos: Evitando o Thundering Herd</title><link>https://micheloliveira.com/blog/retries-distribuidos-evitando-thundering-herd/</link><pubDate>Sat, 21 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/retries-distribuidos-evitando-thundering-herd/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-desafio-do-thundering-herd">O Desafio do “Thundering Herd”&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conceito-de-retry-distribuído">Conceito de Retry Distribuído&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#modelagem-de-chave-e-valor">Modelagem de Chave e Valor&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-de-retries-coordenados">Fluxo de Retries Coordenados&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#benefícios">Benefícios&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#cuidados-operacionais">Cuidados Operacionais&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Em sistemas distribuídos, é comum que várias instâncias de um mesmo serviço detectem simultaneamente uma falha em um endpoint externo e disparem &lt;strong>retries&lt;/strong> ao mesmo tempo. Esse comportamento, conhecido como &lt;em>thundering herd&lt;/em>, pode causar ainda mais sobrecarga no serviço alvo, gerando latências adicionais ou até quedas totais. Para superar esse desafio, adotamos padrões de &lt;strong>retries distribuídos&lt;/strong>, nos quais um armazenamento compartilhado (por exemplo, Redis) atua como ponto único de verdade para coordenar quando cada instância pode tentar novamente.&lt;/p></description></item></channel></rss>
