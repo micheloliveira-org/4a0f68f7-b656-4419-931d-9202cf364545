@@ -1,0 +1,4 @@
+User-agent: *
+
+
+Sitemap: https://micheloliveira.com/sitemap.xml

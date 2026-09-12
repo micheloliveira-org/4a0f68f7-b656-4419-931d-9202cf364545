@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Artigos sobre Kubernetes — Michel Oliveira</title><link>https://micheloliveira.com/categories/kubernetes/</link><description>Confira artigos sobre Kubernetes, com análises técnicas, boas práticas e experiências aplicadas a projetos de software.</description><generator>Hugo</generator><language>pt-BR</language><lastBuildDate>Thu, 18 Sep 2025 23:28:50 -0300</lastBuildDate><atom:link href="https://micheloliveira.com/categories/kubernetes/index.xml" rel="self" type="application/rss+xml"/><item><title>Self-Hosting é para o seu projeto? Pilares da hospedagem de aplicações, IaaS, PaaS, Kubernetes e Serverless</title><link>https://micheloliveira.com/blog/self-hosting-para-seu-projeto-pilares-hospedagem-aplicacoes/</link><pubDate>Thu, 18 Sep 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/self-hosting-para-seu-projeto-pilares-hospedagem-aplicacoes/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conceitos">Conceitos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#modelos-de-hospedagem--execução">Modelos de hospedagem / execução&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#self-hosting--iaas">Self-Hosting / IaaS&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#plataformas-self-hosted">Plataformas Self-Hosted&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#paas">PaaS&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#managed-kubernetes">Managed Kubernetes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#serverless--faas">Serverless / FaaS&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#tradeoffs-e-decisão-estratégica">Tradeoffs e decisão estratégica&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#escalabilidade-por-modelo-de-hospedagem">Escalabilidade por modelo de hospedagem&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#insights">Insights&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#kubernetes-self-hosted-na-hetzner">Kubernetes Self-Hosted na Hetzner&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#diagrama-de-arquitetura-k8s-autoscalável-na-hetzner">Diagrama de arquitetura K8s autoscalável na Hetzner&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#coolify--caprover--dokku-em-vms-iaas-self-hosted">Coolify / CapRover / Dokku em VMs IaaS (Self-Hosted)&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#kubernetes-gerenciado-managed-kubernetes">Kubernetes Gerenciado (Managed Kubernetes)&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#nível-de-serviço-ou-sla-service-level-agreement">Nível de Serviço ou SLA (Service Level Agreement)&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#dependência-e-especialização-do-time">Dependência e Especialização do Time&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#suporte-do-cloud-provider-x-nível-de-serviço">Suporte do Cloud Provider x Nível de Serviço&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#níveis-de-responsabilidade-time-x-provedor-de-infraestrutura">Níveis de responsabilidade: Time x Provedor de Infraestrutura&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#checklist-de-decisão">Checklist de decisão&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#recomendações">Recomendações&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#e-o-banco-de-dados-gerenciado-ou-não">E o Banco de Dados: Gerenciado ou Não?&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Decidir entre self-hosting, PaaS ou serverless não é apenas uma escolha de custo. Cada modelo impacta diretamente confiabilidade, velocidade de entrega, escalabilidade, segurança e necessidade de especialização da equipe. Para os times, a decisão deve levar em conta tradeoffs técnicos, operacionais e financeiros.&lt;/p></description></item></channel></rss>

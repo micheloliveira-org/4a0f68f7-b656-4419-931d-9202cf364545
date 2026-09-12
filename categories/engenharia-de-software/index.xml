@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Artigos sobre Engenharia De Software — Michel Oliveira</title><link>https://micheloliveira.com/categories/engenharia-de-software/</link><description>Confira artigos sobre Engenharia De Software, com análises técnicas, boas práticas e experiências aplicadas a projetos de software.</description><generator>Hugo</generator><language>pt-BR</language><lastBuildDate>Fri, 15 May 2026 19:38:13 -0300</lastBuildDate><atom:link href="https://micheloliveira.com/categories/engenharia-de-software/index.xml" rel="self" type="application/rss+xml"/><item><title>Reduzindo mais de 90% da latência na Rinha de Backend 2026 executando FAISS diretamente dentro das APIs .NET</title><link>https://micheloliveira.com/blog/reduzindo-latencia-rinha-de-backend-2026-faiss-direto-nas-apis-dotnet/</link><pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/reduzindo-latencia-rinha-de-backend-2026-faiss-direto-nas-apis-dotnet/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#repositórios">Repositórios&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#por-que-o-python-virou-gargalo">Por que o Python virou gargalo&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#a-primeira-arquitetura">A primeira arquitetura&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-levou-à-mudança">O que levou à mudança&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#a-nova-arquitetura">A nova arquitetura&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-deixa-de-existir">O que deixa de existir&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#trade-offs">Trade-offs&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#resultados-oficiais">Resultados oficiais&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#resultados-locais">Resultados locais&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#próximos-passos">Próximos passos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Na primeira versão da minha solução para a Rinha de Backend 2026, a busca vetorial rodava em um serviço separado em Python utilizando FAISS (Facebook AI Similarity Search), enquanto as APIs HTTP eram implementadas em .NET Native AOT.&lt;/p></description></item><item><title>Desafio de Performance - Rinha de Backend 2026 - Insights da Minha Versão em C# AOT + Similarity Search em Python com FAISS</title><link>https://micheloliveira.com/blog/desafio-performance-rinha-backend-2026-insights-csharp-faiss/</link><pubDate>Thu, 07 May 2026 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/desafio-performance-rinha-backend-2026-insights-csharp-faiss/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#repositórios">Repositórios&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-objetivo-da-solução">O objetivo da solução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-é-busca-vetorial-de-fato">O que é busca vetorial de fato?&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#ia-e-uso-de-vetores">IA e uso de vetores&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#exemplos-de-uso">Exemplos de uso&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#por-que-o-gargalo-fica-concentrado-na-busca-vetorial">Por que o gargalo fica concentrado na busca vetorial&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-a-consulta-deve-funcionar-na-rinha-2026">Como a consulta deve funcionar na Rinha 2026&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#onde-a-escala-torna-a-pesquisa-por-força-bruta-inviável">Onde a escala torna a pesquisa por força bruta inviável&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-problema-de-memória-é-ainda-pior">O problema de memória é ainda pior&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#faiss---facebook-ai-similarity-search">FAISS - Facebook AI Similarity Search&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#redução-de-comparações-com-ivf">Redução de comparações com IVF&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#testes-realizados">Testes realizados&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#postgresql--pgvector-com-hnsw--ivf-e-mariadb-vector-hnsw">PostgreSQL + pgvector (com HNSW / IVF) e MariaDB Vector (HNSW)&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#bibliotecas-de-índice-vetorial-em-net">Bibliotecas de índice vetorial em .NET&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#bancos-vetoriais-dedicados">Bancos vetoriais dedicados&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#a-solução-final-faiss-com-ivf--quantização-fp16">A solução final: FAISS com IVF + quantização FP16&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#redução-de-memória">Redução de memória&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#por-que-os-parâmetros-escolhidos-são-críticos">Por que os parâmetros escolhidos são críticos&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#nlist--4096">&lt;code>nlist = 4096&lt;/code>&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#nprobe--16">&lt;code>nprobe = 16&lt;/code>&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#como-a-arquitetura-foi-organizada">Como a arquitetura foi organizada&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#1-load-balancer">1. Load balancer&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#2-duas-apis-em-net-native-aot">2. Duas APIs em .NET Native AOT&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#3-serviço-dedicado-de-busca-vetorial-em-python">3. Serviço dedicado de busca vetorial em Python&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#detalhe-importante-o-índice-é-pré-construído">Detalhe importante: o índice é pré-construído&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#resultado-local-k6">Resultado local (K6)&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#resultado-oficial-no-github">Resultado oficial no GitHub&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>A edição 2026 da Rinha de Backend alterou profundamente o tipo de problema que precisava ser resolvido. Nas edições anteriores, o centro da discussão normalmente girava em torno de concorrência, coordenação entre processos, filas, cache, persistência e throughput HTTP sob carga. Eram desafios clássicos de sistemas distribuídos e engenharia de backend: como aceitar muitas requisições, como evitar contenção, como reduzir latência em operações de I/O e como manter estabilidade quando a pressão de tráfego aumentava.&lt;/p></description></item><item><title>O Acoplamento Oculto: Como dependências sutis quebram a manutenção de um software</title><link>https://micheloliveira.com/blog/o-acoplamento-oculto-como-dependencias-sutis-quebram-a-manutencao-de-um-software/</link><pubDate>Wed, 08 Oct 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/o-acoplamento-oculto-como-dependencias-sutis-quebram-a-manutencao-de-um-software/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#1-fundamentos-o-que-é-acoplamento-e-por-que-ele-é-inevitável">1. Fundamentos: O que é acoplamento e por que ele é inevitável&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#2-formas-de-acoplamento-oculto-no-mundo-real">2. Formas de acoplamento oculto no mundo real&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#3-efeitos-colaterais-do-acoplamento-oculto">3. Efeitos colaterais do acoplamento oculto&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#4-reflection-quando-a-implementação-revela-o-acoplamento-oculto">4. Reflection: Quando a implementação revela o acoplamento oculto&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#5-diagnóstico-como-detectar-o-invisível">5. Diagnóstico: Como detectar o invisível&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#6-estratégias-para-reduzir-e-controlar-o-acoplamento">6. Estratégias para reduzir e controlar o acoplamento&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#7-paralelo-com-java-e-spring">7. Paralelo com Java e Spring&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#8-casos-reais-quando-o-invisível-quebrou-o-sistema">8. Casos reais: Quando o invisível quebrou o sistema&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#9-arquitetura-evolutiva-e-o-princípio-da-visibilidade">9. Arquitetura evolutiva e o princípio da visibilidade&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Em engenharia de software, há um inimigo silencioso que não lança exceções, não aparece em logs e não é detectado por testes unitários: o &lt;strong>acoplamento oculto&lt;/strong>. Ele se manifesta em dependências invisíveis entre componentes que, com o tempo, tornam o sistema imprevisível, rígido e difícil de evoluir.&lt;/p></description></item><item><title>Memory Leak: Quando um vazamento de memória pode derrubar a sua aplicação</title><link>https://micheloliveira.com/blog/memory-leak-quando-um-vazamento-de-memoria-pode-derrubar-a-sua-aplicacao/</link><pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/memory-leak-quando-um-vazamento-de-memoria-pode-derrubar-a-sua-aplicacao/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fundamentos-do-gerenciamento-de-memória-no-net">Fundamentos do Gerenciamento de Memória no .NET&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#não-interfira-no-garbage-collector">Não Interfira no Garbage Collector&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-um-memory-leak-surge">Como um Memory Leak Surge&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#exemplos-de-memory-leak-em-net">Exemplos de Memory Leak em .NET&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#memory-leak-em-código-unsafe">Memory Leak em Código Unsafe&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#memory-leak-com-código-não-gerenciado">Memory Leak com Código Não Gerenciado&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#caso-real-getmetadataworkspace-do-entity-framework">Caso Real: GetMetadataWorkspace do Entity Framework&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#memory-leak-também-em-outras-linguagens">Memory Leak Também em Outras Linguagens&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#diagnóstico-e-ferramentas-para-net">Diagnóstico e Ferramentas para .NET&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#boas-práticas-para-evitar-vazamentos">Boas Práticas para Evitar Vazamentos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Vazamentos de memória são problemas silenciosos e cumulativos em sistemas complexos. Eles consomem memória gradualmente, degradando performance e eventualmente causando falhas críticas.&lt;/p></description></item><item><title>Streams: Quando e por que usar para processamento eficiente de dados</title><link>https://micheloliveira.com/blog/streams-quando-e-por-que-usar-para-processamento-eficiente-de-dados/</link><pubDate>Fri, 03 Oct 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/streams-quando-e-por-que-usar-para-processamento-eficiente-de-dados/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#paradigma-tradicional-vs-streaming">Paradigma Tradicional vs Streaming&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#arquitetura-visão-conceitual">Arquitetura: Visão conceitual&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-conceito-de-buffer">O conceito de buffer&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#exemplo-teórico-lendo-um-arquivo-de-10gb-em-net-c">Exemplo Teórico: Lendo um arquivo de 10GB em .NET, C#&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#abordagem-sem-streaming">Abordagem sem streaming&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#abordagem-com-streaming-e-buffer">Abordagem com streaming e buffer&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#visualizando-a-diferença">Visualizando a diferença&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#streaming-em-http-grpc-e-outros-dados-contínuos">Streaming em HTTP, gRPC e outros dados contínuos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#impactos-na-performance-e-garbage-collection">Impactos na Performance e Garbage Collection&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#onde-ainda-vejo-memória-sendo-estourada">Onde ainda vejo memória sendo estourada&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#trade-offs-stream-vs-não-stream">Trade-offs: Stream vs Não Stream&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#quando-usar-streams">Quando usar Streams&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#aplicações-no-mundo-real">Aplicações no mundo real&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Vivemos em uma era de excesso de informação. Logs que crescem a cada segundo, bancos de dados de terabytes, vídeos transmitidos em tempo real. Nesse cenário, surge a pergunta:&lt;/p></description></item><item><title>ReactiveLock – Um case pronto para produção da Rinha de Backend 2025</title><link>https://micheloliveira.com/blog/reactivelock-um-case-pronto-para-producao-biblioteca-nuget/</link><pubDate>Tue, 02 Sep 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/reactivelock-um-case-pronto-para-producao-biblioteca-nuget/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-é-o-reactivelock">O que é o ReactiveLock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#comparação-com-outras-bibliotecas-de-lock">Comparação com Outras Bibliotecas de Lock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#benefícios-da-biblioteca">Benefícios da Biblioteca&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#componentes-principais">Componentes Principais&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#arquitetura-base">Arquitetura Base&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-básico-de-lock">Fluxo Básico de Lock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#detalhe-do-fluxo-básico">Detalhe do Fluxo Básico&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#uso-na-rinha-de-backend-2025-e-case-de-produção">Uso na Rinha de Backend 2025 e Case de Produção&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#mitigando-o-teorema-cap">Mitigando o Teorema CAP&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-integrar-o-reactivelock">Como Integrar o ReactiveLock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Participei da &lt;strong>&lt;a href="https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/">Rinha de Backend 2025&lt;/a>&lt;/strong>, um desafio de alta performance para sistemas distribuídos, enviando diversas versões para avaliação de desempenho e consistência, incluindo:&lt;/p></description></item><item><title>O Teorema CAP na Prática: Lições da Rinha de Backend 2025</title><link>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</link><pubDate>Tue, 05 Aug 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#o-que-o-teorema-cap-realmente-significa">O que o Teorema CAP realmente significa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-isso-aparece-na-rinha">Como isso aparece na Rinha&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#estratégias-observadas-na-prática">Estratégias observadas na prática&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-aprendemos-com-isso">O que aprendemos com isso&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;p>Durante a &lt;a href="https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/">Rinha de Backend 2025&lt;/a>, os participantes enfrentaram um desafio que ia além da performance bruta. O objetivo era construir sistemas distribuídos rápidos, confiáveis e resilientes diante de falhas. A proposta parecia simples: processar pagamentos entre dois serviços que poderiam ficar instáveis. No entanto, à medida que o sistema era colocado sob carga, surgia uma questão importante: o que acontece quando partes do sistema deixam de se comunicar e / ou estão fora de sincronia?&lt;/p></description></item><item><title>Desafio de Performance - Rinha de Backend 2025 - Insights da Minha Versão em C# + PostgreSQL + Redis</title><link>https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/</link><pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#repositórios">Repositórios&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#insights-principais">Insights principais&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#1-coordenação-reativa-entre-instâncias-com-reactivelock---rastreamento-de-estado-e-sincronização-distribuída-via-redis">1. Coordenação reativa entre instâncias com ReactiveLock - rastreamento de estado e sincronização distribuída via Redis&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#2-performance-real-com-execução-nativa-aot-no-net-9">2. Performance real com execução nativa AOT no .NET 9&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#3-throughput-otimizado-com-bulk-insert-no-postgresql">3. Throughput otimizado com bulk insert no PostgreSQL&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#4-balanceamento-de-carga-real-com-enfileiramento-via-redis---somente-distribuição-de-tráfego-por-round-robin-não-é-adequado-para-cenários-dinâmicos">4. Balanceamento de carga real com enfileiramento via Redis - somente distribuição de tráfego por round robin não é adequado para cenários dinâmicos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#5-separação-entre-enfileiramento-e-processamento-assíncrono-para-alta-escalabilidade-e-responsividade">5. Separação entre enfileiramento e processamento assíncrono para alta escalabilidade e responsividade&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Este artigo traz uma análise dos principais insights técnicos que tive ao construir minha solução para a Rinha de Backend 2025. O foco é mostrar decisões que impactaram diretamente no desempenho, estabilidade e integridade do sistema, especialmente considerando as restrições severas do desafio.&lt;/p></description></item><item><title>Arquitetura de Software que Entrega: O Impacto Real nas Equipes de Desenvolvimento</title><link>https://micheloliveira.com/blog/arquitetura-de-software-que-entrega-impacto-real-equipes-desenvolvimento/</link><pubDate>Sat, 28 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/arquitetura-de-software-que-entrega-impacto-real-equipes-desenvolvimento/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#arquitetura-como-facilitadora-das-entregas">Arquitetura como facilitadora das entregas&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#benefícios-de-padrões-e-planejamento-arquitetural">Benefícios de padrões e planejamento arquitetural&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#colaboração-entre-arquitetos-e-equipes">Colaboração entre arquitetos e equipes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#práticas-recomendadas-para-arquitetura-ágil">Práticas recomendadas para arquitetura ágil&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>A arquitetura de software é o “esqueleto” de um sistema, definindo os componentes, padrões e acordos que orientam o desenvolvimento. Em equipes ágeis, uma arquitetura bem planejada facilita entregas rápidas e seguras, enquanto decisões arquiteturais inadequadas podem criar gargalos e atritos que atrasam o time. Em outras palavras, uma arquitetura bem projetada impulsiona a agilidade e permite mudanças iterativas com baixo risco.&lt;/p></description></item></channel></rss>
