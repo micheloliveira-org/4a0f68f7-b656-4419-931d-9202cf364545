@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Artigos sobre Resiliencia — Michel Oliveira</title><link>https://micheloliveira.com/categories/resiliencia/</link><description>Confira artigos sobre Resiliencia, com análises técnicas, boas práticas e experiências aplicadas a projetos de software.</description><generator>Hugo</generator><language>pt-BR</language><lastBuildDate>Tue, 22 Sep 2026 10:53:07 -0300</lastBuildDate><atom:link href="https://micheloliveira.com/categories/resiliencia/index.xml" rel="self" type="application/rss+xml"/><item><title>Timeouts e Deadlines - Como tratar latência como um orçamento em sistemas distribuídos</title><link>https://micheloliveira.com/blog/timeouts-deadlines-orcamento-de-tempo-sistemas-distribuidos/</link><pubDate>Tue, 22 Sep 2026 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/timeouts-deadlines-orcamento-de-tempo-sistemas-distribuidos/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#timeout-e-deadline-não-são-a-mesma-coisa">Timeout e deadline não são a mesma coisa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-custo-do-trabalho-que-chega-tarde">O custo do trabalho que chega tarde&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#cancelar-a-espera-não-é-cancelar-o-trabalho">Cancelar a espera não é cancelar o trabalho&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#deadline-não-desfaz-efeitos-colaterais">Deadline não desfaz efeitos colaterais&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-dividir-um-orçamento-de-latência">Como dividir um orçamento de latência&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#retries-precisam-caber-no-mesmo-orçamento">Retries precisam caber no mesmo orçamento&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#trabalho-síncrono-e-assíncrono-possuem-contratos-diferentes">Trabalho síncrono e assíncrono possuem contratos diferentes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#observabilidade-descobrir-onde-o-orçamento-desapareceu">Observabilidade: descobrir onde o orçamento desapareceu&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#armadilhas-comuns">Armadilhas comuns&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#usar-o-mesmo-timeout-para-todas-as-dependências">Usar o mesmo timeout para todas as dependências&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#configurar-limites-muito-altos-para-evitar-erros">Configurar limites muito altos para evitar erros&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#configurar-limites-curtos-sem-observar-percentis">Configurar limites curtos sem observar percentis&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#criar-várias-fontes-de-timeout-sem-distinguir-a-causa">Criar várias fontes de timeout sem distinguir a causa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#receber-o-token-e-não-repassá-lo">Receber o token e não repassá-lo&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#tratar-cancelamento-como-rollback">Tratar cancelamento como rollback&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#um-caminho-prático-para-adoção">Um caminho prático para adoção&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Quando uma integração pode demorar demais, a reação mais comum é adicionar um timeout, então a chamada ao banco recebe 5 segundos, o cliente HTTP recebe 10 e a operação externa ganha mais algumas tentativas antes de falhar. Cada limite parece razoável quando observado isoladamente, embora a requisição do usuário não enxergue essas etapas separadamente e perceba apenas o tempo total.&lt;/p></description></item><item><title>Backpressure e Controle de Fluxo em Sistemas Reativos</title><link>https://micheloliveira.com/blog/backpressure-controle-de-fluxo-sistemas-reativos/</link><pubDate>Thu, 26 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/backpressure-controle-de-fluxo-sistemas-reativos/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-problema-da-assimetria-de-velocidade">O Problema da Assimetria de Velocidade&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-é-backpressure">O Que é Backpressure?&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#estratégias-comuns">Estratégias Comuns&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#modelos-reativos-e-controle-de-fluxo">Modelos Reativos e Controle de Fluxo&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#publisher-e-subscriber">Publisher e Subscriber&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-sob-demanda">Fluxo sob Demanda&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#benefícios-do-backpressure">Benefícios do Backpressure&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#considerações-de-implementação">Considerações de Implementação&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Sistemas modernos precisam lidar com fluxos contínuos de dados e picos de carga cada vez mais frequentes. Em arquiteturas orientadas a eventos, &lt;strong>o controle de fluxo&lt;/strong> se torna um fator crítico para garantir que o sistema não entre em colapso sob pressão. É nesse contexto que surgem conceitos como &lt;strong>backpressure&lt;/strong>, que definem como produtores e consumidores negociam a taxa de entrega de dados.&lt;/p></description></item><item><title>Retries Distribuídos: Evitando o Thundering Herd</title><link>https://micheloliveira.com/blog/retries-distribuidos-evitando-thundering-herd/</link><pubDate>Sat, 21 Jun 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/retries-distribuidos-evitando-thundering-herd/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-desafio-do-thundering-herd">O Desafio do “Thundering Herd”&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conceito-de-retry-distribuído">Conceito de Retry Distribuído&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#modelagem-de-chave-e-valor">Modelagem de Chave e Valor&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-de-retries-coordenados">Fluxo de Retries Coordenados&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#benefícios">Benefícios&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#cuidados-operacionais">Cuidados Operacionais&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Em sistemas distribuídos, é comum que várias instâncias de um mesmo serviço detectem simultaneamente uma falha em um endpoint externo e disparem &lt;strong>retries&lt;/strong> ao mesmo tempo. Esse comportamento, conhecido como &lt;em>thundering herd&lt;/em>, pode causar ainda mais sobrecarga no serviço alvo, gerando latências adicionais ou até quedas totais. Para superar esse desafio, adotamos padrões de &lt;strong>retries distribuídos&lt;/strong>, nos quais um armazenamento compartilhado (por exemplo, Redis) atua como ponto único de verdade para coordenar quando cada instância pode tentar novamente.&lt;/p></description></item></channel></rss>

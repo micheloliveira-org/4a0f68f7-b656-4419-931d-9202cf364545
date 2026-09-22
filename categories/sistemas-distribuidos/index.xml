@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Artigos sobre Sistemas Distribuidos — Michel Oliveira</title><link>https://micheloliveira.com/categories/sistemas-distribuidos/</link><description>Confira artigos sobre Sistemas Distribuidos, com análises técnicas, boas práticas e experiências aplicadas a projetos de software.</description><generator>Hugo</generator><language>pt-BR</language><lastBuildDate>Tue, 22 Sep 2026 10:53:07 -0300</lastBuildDate><atom:link href="https://micheloliveira.com/categories/sistemas-distribuidos/index.xml" rel="self" type="application/rss+xml"/><item><title>Timeouts e Deadlines - Como tratar latência como um orçamento em sistemas distribuídos</title><link>https://micheloliveira.com/blog/timeouts-deadlines-orcamento-de-tempo-sistemas-distribuidos/</link><pubDate>Tue, 22 Sep 2026 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/timeouts-deadlines-orcamento-de-tempo-sistemas-distribuidos/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#timeout-e-deadline-não-são-a-mesma-coisa">Timeout e deadline não são a mesma coisa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-custo-do-trabalho-que-chega-tarde">O custo do trabalho que chega tarde&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#cancelar-a-espera-não-é-cancelar-o-trabalho">Cancelar a espera não é cancelar o trabalho&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#deadline-não-desfaz-efeitos-colaterais">Deadline não desfaz efeitos colaterais&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-dividir-um-orçamento-de-latência">Como dividir um orçamento de latência&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#retries-precisam-caber-no-mesmo-orçamento">Retries precisam caber no mesmo orçamento&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#trabalho-síncrono-e-assíncrono-possuem-contratos-diferentes">Trabalho síncrono e assíncrono possuem contratos diferentes&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#observabilidade-descobrir-onde-o-orçamento-desapareceu">Observabilidade: descobrir onde o orçamento desapareceu&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#armadilhas-comuns">Armadilhas comuns&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#usar-o-mesmo-timeout-para-todas-as-dependências">Usar o mesmo timeout para todas as dependências&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#configurar-limites-muito-altos-para-evitar-erros">Configurar limites muito altos para evitar erros&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#configurar-limites-curtos-sem-observar-percentis">Configurar limites curtos sem observar percentis&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#criar-várias-fontes-de-timeout-sem-distinguir-a-causa">Criar várias fontes de timeout sem distinguir a causa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#receber-o-token-e-não-repassá-lo">Receber o token e não repassá-lo&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#tratar-cancelamento-como-rollback">Tratar cancelamento como rollback&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#um-caminho-prático-para-adoção">Um caminho prático para adoção&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Quando uma integração pode demorar demais, a reação mais comum é adicionar um timeout, então a chamada ao banco recebe 5 segundos, o cliente HTTP recebe 10 e a operação externa ganha mais algumas tentativas antes de falhar. Cada limite parece razoável quando observado isoladamente, embora a requisição do usuário não enxergue essas etapas separadamente e perceba apenas o tempo total.&lt;/p></description></item><item><title>ReactiveLock – Um case pronto para produção da Rinha de Backend 2025</title><link>https://micheloliveira.com/blog/reactivelock-um-case-pronto-para-producao-biblioteca-nuget/</link><pubDate>Tue, 02 Sep 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/reactivelock-um-case-pronto-para-producao-biblioteca-nuget/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-é-o-reactivelock">O que é o ReactiveLock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#comparação-com-outras-bibliotecas-de-lock">Comparação com Outras Bibliotecas de Lock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#benefícios-da-biblioteca">Benefícios da Biblioteca&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#componentes-principais">Componentes Principais&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#arquitetura-base">Arquitetura Base&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fluxo-básico-de-lock">Fluxo Básico de Lock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#detalhe-do-fluxo-básico">Detalhe do Fluxo Básico&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#uso-na-rinha-de-backend-2025-e-case-de-produção">Uso na Rinha de Backend 2025 e Case de Produção&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#mitigando-o-teorema-cap">Mitigando o Teorema CAP&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-integrar-o-reactivelock">Como Integrar o ReactiveLock&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Participei da &lt;strong>&lt;a href="https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/">Rinha de Backend 2025&lt;/a>&lt;/strong>, um desafio de alta performance para sistemas distribuídos, enviando diversas versões para avaliação de desempenho e consistência, incluindo:&lt;/p></description></item><item><title>O Teorema CAP na Prática: Lições da Rinha de Backend 2025</title><link>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</link><pubDate>Tue, 05 Aug 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/teorema-cap-na-pratica-licoes-rinha-de-backend-2025/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#o-que-o-teorema-cap-realmente-significa">O que o Teorema CAP realmente significa&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-isso-aparece-na-rinha">Como isso aparece na Rinha&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#estratégias-observadas-na-prática">Estratégias observadas na prática&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-que-aprendemos-com-isso">O que aprendemos com isso&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;p>Durante a &lt;a href="https://micheloliveira.com/blog/desafio-performance-rinha-backend-2025-insights-csharp-postgresql-redis/">Rinha de Backend 2025&lt;/a>, os participantes enfrentaram um desafio que ia além da performance bruta. O objetivo era construir sistemas distribuídos rápidos, confiáveis e resilientes diante de falhas. A proposta parecia simples: processar pagamentos entre dois serviços que poderiam ficar instáveis. No entanto, à medida que o sistema era colocado sob carga, surgia uma questão importante: o que acontece quando partes do sistema deixam de se comunicar e / ou estão fora de sincronia?&lt;/p></description></item></channel></rss>

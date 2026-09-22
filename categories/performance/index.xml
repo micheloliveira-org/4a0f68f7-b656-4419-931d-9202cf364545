@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Artigos sobre Performance — Michel Oliveira</title><link>https://micheloliveira.com/categories/performance/</link><description>Confira artigos sobre Performance, com análises técnicas, boas práticas e experiências aplicadas a projetos de software.</description><generator>Hugo</generator><language>pt-BR</language><lastBuildDate>Mon, 30 Mar 2026 16:48:53 -0300</lastBuildDate><atom:link href="https://micheloliveira.com/categories/performance/index.xml" rel="self" type="application/rss+xml"/><item><title>Como a Microsoft otimiza automaticamente milhões de bancos de dados</title><link>https://micheloliveira.com/blog/como-a-microsoft-otimiza-automaticamente-milhoes-de-databases/</link><pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/como-a-microsoft-otimiza-automaticamente-milhoes-de-databases/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-automatic-tuning-da-microsoft">O Automatic Tuning da Microsoft&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#arquitetura-e-funcionamento-interno">Arquitetura e funcionamento interno&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#ciclo-de-decisão-e-segurança">Ciclo de decisão e segurança&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#criação-e-remoção-automática-de-índices">Criação e remoção automática de índices&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#correção-no-plano-de-execução-das-queries">Correção no plano de execução das queries&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#compactação-automática-de-índices-2026">Compactação automática de índices (2026)&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#funcionamento-da-compactação">Funcionamento da compactação&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#impacto-técnico">Impacto técnico&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#papel-do-dba-e-da-aplicação">Papel do DBA e da aplicação&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#fine-tuning-manual-está-perdendo-espaço">Fine tuning manual está perdendo espaço&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-novo-equilíbrio">O novo equilíbrio&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#o-dba-continua-agregando-valor">O DBA continua agregando valor&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#trade-offs">Trade-offs&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#minha-experiência-com-o-automatic-tuning">Minha experiência com o Automatic Tuning&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#comparação-com-outras-soluções">Comparação com outras soluções&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#referências">Referências&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Durante muito tempo, tuning de banco de dados foi uma atividade essencialmente manual: analisar consultas, ajustar índices, acompanhar fragmentação e manter rotinas periódicas de manutenção.&lt;/p></description></item><item><title>Memory Leak: Quando um vazamento de memória pode derrubar a sua aplicação</title><link>https://micheloliveira.com/blog/memory-leak-quando-um-vazamento-de-memoria-pode-derrubar-a-sua-aplicacao/</link><pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate><guid>https://micheloliveira.com/blog/memory-leak-quando-um-vazamento-de-memoria-pode-derrubar-a-sua-aplicacao/</guid><description>&lt;div class="bg-gray-50 p-4 rounded-lg mb-8">
+ &lt;span class="text-xl font-semibold mb-4">Sumário&lt;/span>
+ &lt;details class="group">
+ &lt;summary class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 select-none">
+ Mostrar/Ocultar
+ &lt;/summary>
+ &lt;div class="mt-2 text-sm leading-snug text-gray-700">
+ &lt;nav id="TableOfContents">
+ &lt;ul>
+ &lt;li>&lt;a href="#introdução">Introdução&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#fundamentos-do-gerenciamento-de-memória-no-net">Fundamentos do Gerenciamento de Memória no .NET&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#não-interfira-no-garbage-collector">Não Interfira no Garbage Collector&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#como-um-memory-leak-surge">Como um Memory Leak Surge&lt;/a>
+ &lt;ul>
+ &lt;li>&lt;a href="#exemplos-de-memory-leak-em-net">Exemplos de Memory Leak em .NET&lt;/a>&lt;/li>
+ &lt;/ul>
+ &lt;/li>
+ &lt;li>&lt;a href="#memory-leak-em-código-unsafe">Memory Leak em Código Unsafe&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#memory-leak-com-código-não-gerenciado">Memory Leak com Código Não Gerenciado&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#caso-real-getmetadataworkspace-do-entity-framework">Caso Real: GetMetadataWorkspace do Entity Framework&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#memory-leak-também-em-outras-linguagens">Memory Leak Também em Outras Linguagens&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#diagnóstico-e-ferramentas-para-net">Diagnóstico e Ferramentas para .NET&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#boas-práticas-para-evitar-vazamentos">Boas Práticas para Evitar Vazamentos&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="#conclusão">Conclusão&lt;/a>&lt;/li>
+ &lt;/ul>
+&lt;/nav>
+ &lt;/div>
+ &lt;/details>
+&lt;/div>
+&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Vazamentos de memória são problemas silenciosos e cumulativos em sistemas complexos. Eles consomem memória gradualmente, degradando performance e eventualmente causando falhas críticas.&lt;/p></description></item></channel></rss>
